@@ -71,7 +71,6 @@ define([
       if(transition === 'undefined') {
         var transition = $.mobile.defaultPageTransition;
       }
-      console.log(transition)
       
       // We don't want to slide the first page
       if (this.firstPage) {
@@ -124,8 +123,17 @@ define([
     var shoutCollection = new ShoutCollection();
     shoutCollection.fetch({async: false});
 
+
+    var q = new StackMob.Collection.Query();
+    q.setExpand(1);
+    var shoutCollection = new ShoutCollection();
+    shoutCollection.query(q);
+
+    var wq = new StackMob.Collection.Query();
+    wq.setExpand(1);
     var whisperCollection = new WhisperCollection();
-    whisperCollection.fetch({async: false});
+    //whisperCollection.fetch({async: false});
+    whisperCollection.query(wq);
     
     var app_router = new AppRouter({collection: shoutCollection, whisperCollection: whisperCollection});
 

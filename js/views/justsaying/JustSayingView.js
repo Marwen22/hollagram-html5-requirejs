@@ -60,15 +60,19 @@ define([
 
             if(item.username === ''){
               var loadingMsg = "Shouting it out";
-              var shout = new ShoutModel(item);
+              var shout = new ShoutModel(item); 
+
               shout.create({
                   success: function(model){
                     collection.add(model);
+
+                    model.save('user',StackMob.getLoggedInUser());
                     $.mobile.loading('hide');
                     $('#addBtn').attr('disabled',false);
                     $('input.description').val('');
                     $('input.url').val('');
                     $('input.username').val('');
+                                  
                   },
                   error: function(error){
                     console.log(error);
