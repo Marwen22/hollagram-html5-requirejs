@@ -28,7 +28,7 @@ define([
             el.append(template(model.toJSON()));
         });
 
-        if(collection.length === 0) {  
+        if(this.collection.length === 0) {  
           el.append('<li>No Shouts</li>');      
         }
 
