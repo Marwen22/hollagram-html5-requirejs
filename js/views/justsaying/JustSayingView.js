@@ -72,12 +72,14 @@ define([
                     $('input.url').val('');
                     $('input.username').val('');
 
-                    /*
-                    var loggedInUser = new StackMob.User({username: StackMob.getLoggedInUser()}); 
-                    loggedInUser.fetch({async: false});
-                    model.set("user", loggedInUser.toJSON());
-                    */
-                    model.set("user", StackMob.LoggedInUserObject);
+                    var currentUser = StackMob.LoggedInUserObject;
+                    
+                    if(currentUser === undefined) {
+                      var user = new StackMob.User({username: StackMob.getLoggedInUser()});
+                      user.fetch({async:false});
+                      currentUser = user.toJSON();
+                    }
+                    model.set("user", currentUser);
                     collection.add(model);
                                   
                   },
@@ -89,11 +91,24 @@ define([
               });
             } else {
               var loadingMsg = "Whispering softly!";
-              var whisper = new WhisperModel({"description": item.description, "url" : item.url});
+              var whisper = new WhisperModel(item);
+              item.user = StackMob.getLoggedInUser();
+
               whisper.create({
                 success: function(model){
+                  var currentUser = StackMob.LoggedInUserObject;
+                    
+                  if(currentUser === undefined) {
+                    var user = new StackMob.User({username: StackMob.getLoggedInUser()});
+                    user.fetch({async:false});
+                    currentUser = user.toJSON();
+                  }
+                  var user = new StackMob.User({username: item.username});
+                  user.fetch({async:false});
+
+                  model.set("user", [user.toJSON(),currentUser]);
                   whisperCollection.add(model);
-              
+
                   model.appendAndSave("user", [item.username,StackMob.getLoggedInUser()], {
                     success: function(){
                       

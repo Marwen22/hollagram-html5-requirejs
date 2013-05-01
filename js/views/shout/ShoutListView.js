@@ -25,7 +25,6 @@ define([
         el.empty();
  
         this.collection.each(function(model){
-           console.log(model.toJSON());
             el.append(template(model.toJSON()));
         });
 

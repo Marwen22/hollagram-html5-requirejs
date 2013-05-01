@@ -56,7 +56,11 @@ define([
               
               $.mobile.loading('hide');
               router.navigate("#justsaying", {trigger: true},'justsaying');   
-              whisperCollection.fetch({async:true}); 
+
+              var wq = new StackMob.Collection.Query();
+              wq.setExpand(1);
+              whisperCollection.query(wq);
+
               $('input.usernameLogin').val('');
               $('input.passwordLogin').val('');
                            
