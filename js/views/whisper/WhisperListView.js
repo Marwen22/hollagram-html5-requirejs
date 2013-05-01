@@ -26,7 +26,6 @@ define([
       el.empty();
 
       whisperCollection.each(function(model){
-        console.log(model.toJSON());
         el.append(template(model.toJSON()));
       });
 

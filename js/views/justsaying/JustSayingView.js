@@ -60,18 +60,25 @@ define([
 
             if(item.username === ''){
               var loadingMsg = "Shouting it out";
+              item.user = StackMob.getLoggedInUser();
               var shout = new ShoutModel(item); 
 
               shout.create({
                   success: function(model){
-                    collection.add(model);
 
-                    model.save('user',StackMob.getLoggedInUser());
                     $.mobile.loading('hide');
                     $('#addBtn').attr('disabled',false);
                     $('input.description').val('');
                     $('input.url').val('');
                     $('input.username').val('');
+
+                    /*
+                    var loggedInUser = new StackMob.User({username: StackMob.getLoggedInUser()}); 
+                    loggedInUser.fetch({async: false});
+                    model.set("user", loggedInUser.toJSON());
+                    */
+                    model.set("user", StackMob.LoggedInUserObject);
+                    collection.add(model);
                                   
                   },
                   error: function(error){

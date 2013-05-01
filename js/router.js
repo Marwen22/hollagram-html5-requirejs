@@ -57,7 +57,6 @@ define([
 
     logout:function(e) {
       this.whisperCollection.reset();
-
     },
 
     signup:function(e) {

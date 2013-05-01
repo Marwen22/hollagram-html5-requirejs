@@ -87,7 +87,7 @@ define([
 
           user.create({
             success: function(model){
-              console.log(model.toJSON())
+              
               var user = new StackMob.User(model.toJSON());
                 user.login(false,{
                   success: function(model){

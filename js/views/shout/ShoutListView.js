@@ -25,7 +25,8 @@ define([
         el.empty();
  
         this.collection.each(function(model){
-          el.append(template(model.toJSON()));
+           console.log(model.toJSON());
+            el.append(template(model.toJSON()));
         });
 
         $('#shoutListView').listview('refresh');

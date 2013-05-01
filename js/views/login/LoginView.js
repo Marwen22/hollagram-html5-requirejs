@@ -50,6 +50,10 @@ define([
           var user = new StackMob.User(item);
           user.login(false,{
             success: function(model){
+
+              // This is a hack to persist the User Object for use later
+              StackMob.LoggedInUserObject = model;
+              
               $.mobile.loading('hide');
               router.navigate("#justsaying", {trigger: true},'justsaying');   
               whisperCollection.fetch({async:true}); 

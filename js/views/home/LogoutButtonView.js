@@ -21,7 +21,7 @@ define([
         el.attr("href","#logout");
         el.attr("id","logoutBtn");
         el.attr("data-theme","b");
-        el.text("Logout " + StackMob.getLoggedInUser() );
+        el.text("Logout");
         
         return this;
       } 
