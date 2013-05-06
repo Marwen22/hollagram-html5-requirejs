@@ -1,6 +1,9 @@
 define(['stackmob'], function(StackMob) {
     
-	if(window.location.href === "http://hollagram_html5_requirejs.stackmob339.stackmobapp.com") {
+    var str = window.location.href;
+	var n=str.search("http://hollagram_html5_requirejs.stackmob339.stackmobapp.com");
+	
+	if(n === 0) {
 		StackMob.init({
 	    	publicKey:  "e3cbec6f-4ecc-4b2f-88e2-e8f4d4f13731",
 	    	apiVersion: 1
