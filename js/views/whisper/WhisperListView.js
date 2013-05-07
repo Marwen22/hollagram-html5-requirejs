@@ -30,7 +30,7 @@ define([
       });
 
       if(whisperCollection.length === 0) {  
-        el.append('<li>No Whispers</li>');      
+        el.append('<li>Login to see your Whispers</li>');      
       }
 
       $('#whisperListView').listview('refresh');

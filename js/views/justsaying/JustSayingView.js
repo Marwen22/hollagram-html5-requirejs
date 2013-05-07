@@ -22,10 +22,14 @@ define([
         this.collection = this.options.collection;
         this.whisperCollection = this.options.whisperCollection;
         this.router = this.options.router;
+        this.username = this.options.username;
+        this.template = _.template(JustSayingTemplate);
       },
 
       render: function() {
         var el = this.$el;
+        template = this.template;
+        username = this.username;
 
         el.empty();
         el.append(HomeTemplate);
@@ -33,7 +37,7 @@ define([
 
         var content = el.find(":jqmData(role='content')");
         content.empty();
-        content.append(JustSayingTemplate);
+        content.append(template({username: username}));
         
         return this;
       },

@@ -51,7 +51,7 @@ define([
         if(view === 'whisper') {
           var whisperListView = $('#whisperListView');
           whisperListView.empty();
-          whisperListView.append('<li>No Whisper here</li>');
+          whisperListView.append('<li>Login to see your Whispers</li>');
 
           $('#whisperListView').listview('refresh');
         }

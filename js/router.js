@@ -4,6 +4,7 @@ define([
   'stackmobinit',
   'libs/app/util',
   'views/shout/ShoutView',
+  'views/shout/ShoutDetailView',
   'views/whisper/WhisperView',
   'views/justsaying/JustSayingView',
   'views/signup/SignupView',
@@ -13,14 +14,16 @@ define([
   'collections/shout/ShoutCollection',
   'collections/whisper/WhisperCollection'
 
-], function($, StackMob, Util, ShoutView, WhisperView, JustSayingView, SignupView, LoginView, LogoutButtonView,LoginButtonView,ShoutCollection, WhisperCollection) {
+], function($, StackMob, Util, ShoutView, ShoutDetailView, WhisperView, JustSayingView, SignupView, LoginView, LogoutButtonView,LoginButtonView,ShoutCollection, WhisperCollection) {
   
   var AppRouter = Backbone.Router.extend({
     routes:{
         "":"shout",
         "shout":"shout",
+        "shoutdetail/:id":"shoutdetail",
         "whisper":"whisper",
         "justsaying":"justsaying",
+        "justsaying/:id":"justsaying",
         "login":"login",
         "logout":"logout",
         "signup":"signup"
@@ -43,12 +46,20 @@ define([
       this.changePage(new ShoutView({collection: this.collection}),'shout','Shouts');
     },
 
+    shoutdetail:function(e) {
+      console.log(this.collection);
+      console.log(e)
+      model = this.collection.get(e);
+      this.changePage(new ShoutDetailView({collection: this.collection, model: model}),'shoutdetail','Shouts','slide');
+    },
+
     whisper:function(e) {
       this.changePage(new WhisperView({whisperCollection: this.whisperCollection}),'whisper','Whispers');
     },
 
     justsaying:function(e) {
-      this.changePage(new JustSayingView({collection: this.collection, whisperCollection: this.whisperCollection ,router: this}),'justsaying','Just Saying');
+      var username = e;
+      this.changePage(new JustSayingView({collection: this.collection, whisperCollection: this.whisperCollection ,router: this,username: username}),'justsaying','Just Saying');
     },
 
     login:function(e) {
@@ -77,6 +88,11 @@ define([
           this.firstPage = false;
       }
 
+      if(className === "shoutdetail") {
+        page.remove();
+        page.html('');
+      }
+
       // check if page exists in DOM
       if (!page.html()){
         view.render();
@@ -85,7 +101,7 @@ define([
       }
 
       // Go to new page
-      $.mobile.changePage($(page), {changeHash:false, transition: transition, reverse: true});
+      $.mobile.changePage($(page), {changeHash:false, transition: transition, reverse: false});
    
       // set selected tab bar item
       Util(page).setNavBar(navLabel);
