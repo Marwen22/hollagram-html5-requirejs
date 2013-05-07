@@ -47,8 +47,6 @@ define([
     },
 
     shoutdetail:function(e) {
-      console.log(this.collection);
-      console.log(e)
       model = this.collection.get(e);
       this.changePage(new ShoutDetailView({collection: this.collection, model: model}),'shoutdetail','Shouts','slide');
     },
