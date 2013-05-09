@@ -1,7 +1,7 @@
 
 require.config({
   baseUrl: "/js/",
-  urlArgs: "bust=" + (new Date()).getTime(),
+  //urlArgs: "bust=" + (new Date()).getTime(),
   paths: {
     jquery: 'libs/jquery/jquery-1.8.2',
     'jquery.mobile-config': 'libs/jqm/jquery.mobile-config',
