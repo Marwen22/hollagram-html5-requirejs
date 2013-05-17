@@ -24,6 +24,7 @@ define([
         this.router = this.options.router;
         this.username = this.options.username;
         this.template = _.template(JustSayingTemplate);
+        this.on('render', this.render(),this);
       },
 
       render: function() {
@@ -36,8 +37,11 @@ define([
         el.attr("id","justSayingView");
 
         var content = el.find(":jqmData(role='content')");
-        content.empty();
-        content.append(template({username: username}));
+        content.append(template());
+        
+        if( username !== undefined) {
+          $("input.username").val(username);
+        }
         
         return this;
       },
@@ -113,7 +117,7 @@ define([
                   model.set("user", [user.toJSON(),currentUser]);
                   whisperCollection.add(model);
 
-                  model.appendAndSave("user", [item.username,StackMob.getLoggedInUser()], {
+                  model.appendAndSave("user", [StackMob.getLoggedInUser(),item.username], {
                     success: function(){
                       
                       $.mobile.loading('hide');

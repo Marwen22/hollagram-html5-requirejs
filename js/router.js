@@ -106,6 +106,7 @@ define([
       
       var index = ['whisper','shout','justsaying'].indexOf(className);
  
+    
       // Update the login/logout button in header for specific pages
       if(index >= 0) {
 
