@@ -17,11 +17,10 @@ require.config({
       stackmob: {
         deps: ['jquery'],
         exports: "StackMob"
-
       },    
       stackmobinit: {
         deps: ['jquery','underscore','backbone','stackmob'],
-        exports: "StackMob2"
+        exports: "StackMobInit"
 
       },
       underscore: {
@@ -38,12 +37,13 @@ require.config({
 
 require([
   'jquery',
+  'jquery.mobile-config',
+  'jquery.mobile',
   'underscore', 
   'backbone',
-    'app',
-  'stackmob',
-  'jquery.mobile'
-], function( $,_,Backbone, App ){
+  'app',
+  'stackmob'
+], function( $,_,jqmconfig,jqm,Backbone, App ){
     $(function(){
       App.initialize();
     });
