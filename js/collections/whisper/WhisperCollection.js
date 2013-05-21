@@ -1,15 +1,1 @@
-define([
-  'jquery',
-  'underscore', 
-  'backbone',
-  'stackmobinit',
-  'models/whisper/WhisperModel'
-], function($,_,Backbone,StackMob,WhisperModel){
-
-  var WhisperCollection = StackMob.Collection.extend({
- 	model: WhisperModel
-  });
-
-  return WhisperCollection;
-
-});
+define(["jquery","underscore","backbone","stackmobinit","models/whisper/WhisperModel"],function(e,t,n,r,i){var s=r.Collection.extend({model:i});return s});

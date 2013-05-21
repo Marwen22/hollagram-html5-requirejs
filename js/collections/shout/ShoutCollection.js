@@ -1,15 +1,1 @@
-define([
-  'jquery',
-  'underscore', 
-  'backbone',
-  'stackmobinit',
-  'models/shout/ShoutModel'
-], function($,_,Backbone,StackMob,ShoutModel){
-
-  var ShoutCollection = StackMob.Collection.extend({
- 	model: ShoutModel
-  });
-
-  return ShoutCollection;
-
-});
+define(["jquery","underscore","backbone","stackmobinit","models/shout/ShoutModel"],function(e,t,n,r,i){var s=r.Collection.extend({model:i});return s});
