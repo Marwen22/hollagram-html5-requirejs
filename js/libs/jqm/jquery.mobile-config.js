@@ -1,1 +1,8 @@
-define(["jquery"],function(e){e(document).on("mobileinit",function(){e.mobile.ajaxEnabled=!1,e.mobile.linkBindingEnabled=!1,e.mobile.hashListeningEnabled=!1,e.mobile.pushStateEnabled=!1})});
+define(['jquery'], function ($) {
+      $(document).on("mobileinit", function () {
+          $.mobile.ajaxEnabled = false;
+          $.mobile.linkBindingEnabled = false;
+          $.mobile.hashListeningEnabled = false;
+          $.mobile.pushStateEnabled = false;
+      });
+});

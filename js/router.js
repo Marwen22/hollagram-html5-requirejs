@@ -1,1 +1,157 @@
-define(["jquery","stackmobinit","libs/app/util","views/shout/ShoutView","views/shout/ShoutDetailView","views/whisper/WhisperView","views/justsaying/JustSayingView","views/signup/SignupView","views/login/LoginView","views/home/LogoutButtonView","views/home/LoginButtonView","collections/shout/ShoutCollection","collections/whisper/WhisperCollection"],function(e,t,n,r,i,s,o,u,a,f,l,c,h){var p=Backbone.Router.extend({routes:{"":"shout",shout:"shout","shoutdetail/:id":"shoutdetail",whisper:"whisper",justsaying:"justsaying","justsaying/:id":"justsaying",login:"login",logout:"logout",signup:"signup"},initialize:function(t){this.collection=t.collection,this.whisperCollection=t.whisperCollection,e(".back").live("click",function(e){return window.history.back(),!1}),this.firstPage=!0},shout:function(e){this.changePage(new r({collection:this.collection}),"shout","Shouts")},shoutdetail:function(e){model=this.collection.get(e),this.changePage(new i({collection:this.collection,model:model}),"shoutdetail","Shouts","slide")},whisper:function(e){this.changePage(new s({whisperCollection:this.whisperCollection}),"whisper","Whispers")},justsaying:function(e){var t=e;this.changePage(new o({collection:this.collection,whisperCollection:this.whisperCollection,router:this,username:t}),"justsaying","Just Saying")},login:function(e){this.changePage(new a({collection:this.collection,router:this,whisperCollection:this.whisperCollection}),"loginView","Login","flip")},logout:function(e){this.whisperCollection.reset()},signup:function(e){this.changePage(new u({collection:this.collection,router:this}),"signup","Signup","flip")},changePage:function(r,i,s,o){var u=e("."+i);if(o==="undefined")var o=e.mobile.defaultPageTransition;this.firstPage&&(o="none",this.firstPage=!1),i==="shoutdetail"&&(u.remove(),u.html("")),u.html()||(r.render(),e("body").append(e(r.el)),u=r.el),e.mobile.changePage(e(u),{changeHash:!1,transition:o,reverse:!1}),n(u).setNavBar(s);var a=["whisper","shout","justsaying"].indexOf(i);if(a>=0){var c=t.isLoggedIn();if(c){e(".login").remove();var h=e(u).find(":jqmData(role='header')"),p=new f;h.append(p.render().el)}else{var h=e(u).find(":jqmData(role='header')"),d=new l;h.append(d.render().el)}e("#shoutView").trigger("create"),e("#justSayingView").trigger("create"),e("#whisperView").trigger("create")}}}),d=function(){var e=new c;e.fetch({async:!1});var n=new t.Collection.Query;n.setExpand(1);var e=new c;e.query(n);var r=new t.Collection.Query;r.setExpand(1);var i=new h;i.query(r);var s=new p({collection:e,whisperCollection:i});Backbone.history.start()};return{initialize:d}});
+// Filename: router.js
+define([
+  'jquery',
+  'stackmobinit',
+  'libs/app/util',
+  'views/shout/ShoutView',
+  'views/shout/ShoutDetailView',
+  'views/whisper/WhisperView',
+  'views/justsaying/JustSayingView',
+  'views/signup/SignupView',
+  'views/login/LoginView',
+  'views/home/LogoutButtonView',
+  'views/home/LoginButtonView',
+  'collections/shout/ShoutCollection',
+  'collections/whisper/WhisperCollection'
+
+], function($, StackMob, Util, ShoutView, ShoutDetailView, WhisperView, JustSayingView, SignupView, LoginView, LogoutButtonView,LoginButtonView,ShoutCollection, WhisperCollection) {
+  
+  var AppRouter = Backbone.Router.extend({
+    routes:{
+        "":"shout",
+        "shout":"shout",
+        "shoutdetail/:id":"shoutdetail",
+        "whisper":"whisper",
+        "justsaying":"justsaying",
+        "justsaying/:id":"justsaying",
+        "login":"login",
+        "logout":"logout",
+        "signup":"signup"
+    },
+
+    initialize: function(options) {
+      this.collection = options.collection;
+      this.whisperCollection = options.whisperCollection;
+
+      // Handle back button throughout the application
+      $('.back').live('click', function(event) {
+        window.history.back();
+
+        return false;
+      });
+      this.firstPage = true;
+    },
+
+    shout:function(e) {
+      this.changePage(new ShoutView({collection: this.collection}),'shout','Shouts');
+    },
+
+    shoutdetail:function(e) {
+      model = this.collection.get(e);
+      this.changePage(new ShoutDetailView({collection: this.collection, model: model}),'shoutdetail','Shouts','slide');
+    },
+
+    whisper:function(e) {
+      this.changePage(new WhisperView({whisperCollection: this.whisperCollection}),'whisper','Whispers');
+    },
+
+    justsaying:function(e) {
+      var username = e;
+      this.changePage(new JustSayingView({collection: this.collection, whisperCollection: this.whisperCollection ,router: this,username: username}),'justsaying','Just Saying');
+    },
+
+    login:function(e) {
+     this.changePage(new LoginView({collection: this.collection,router: this, whisperCollection: this.whisperCollection}),'loginView','Login','flip');
+    },
+
+    logout:function(e) {
+      this.whisperCollection.reset();
+    },
+
+    signup:function(e) {
+      this.changePage(new SignupView({collection: this.collection,router: this}),'signup', 'Signup','flip');
+    },
+
+    changePage:function (view,className,navLabel,transition) { 
+      var page = $("." + className);
+
+
+      if(transition === 'undefined') {
+        var transition = $.mobile.defaultPageTransition;
+      }
+      
+      // We don't want to slide the first page
+      if (this.firstPage) {
+          transition = 'none';
+          this.firstPage = false;
+      }
+
+      if(className === "shoutdetail") {
+        page.remove();
+        page.html('');
+      }
+
+      // check if page exists in DOM
+      if (!page.html()){
+        view.render();
+        $('body').append($(view.el));  
+        page = view.el;      
+      }
+
+      // Go to new page
+      $.mobile.changePage($(page), {changeHash:false, transition: transition, reverse: false});
+   
+      // set selected tab bar item
+      Util(page).setNavBar(navLabel);
+      
+      var index = ['whisper','shout','justsaying'].indexOf(className);
+ 
+    
+      // Update the login/logout button in header for specific pages
+      if(index >= 0) {
+
+        var loginStatus = StackMob.isLoggedIn();
+        // Add login/logout button
+        if(loginStatus) {
+          $('.login').remove();
+          var content = $(page).find(":jqmData(role='header')");
+          var logoutView = new LogoutButtonView();
+          
+          content.append(logoutView.render().el);
+        } else {
+          var content = $(page).find(":jqmData(role='header')");
+          var loginButton = new LoginButtonView();
+          content.append(loginButton.render().el);
+        } 
+
+        $('#shoutView').trigger('create');
+        $('#justSayingView').trigger('create');
+        $('#whisperView').trigger('create');
+      }
+    }, 
+
+  });
+  
+  var initialize = function(){
+
+    var shoutCollection = new ShoutCollection();
+    shoutCollection.fetch({async: false});
+
+    var q = new StackMob.Collection.Query();
+    q.setExpand(1);
+    var shoutCollection = new ShoutCollection();
+    shoutCollection.query(q);
+
+    var wq = new StackMob.Collection.Query();
+    wq.setExpand(1);
+    var whisperCollection = new WhisperCollection();
+    whisperCollection.query(wq);
+    
+    var app_router = new AppRouter({collection: shoutCollection, whisperCollection: whisperCollection});
+
+    Backbone.history.start();
+  };
+  return { 
+    initialize: initialize
+  };
+});

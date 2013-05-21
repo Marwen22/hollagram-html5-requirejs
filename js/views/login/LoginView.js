@@ -1,1 +1,79 @@
-define(["jquery","underscore","backbone","stackmob","text!templates/login/loginTemplate.html","libs/app/util"],function(e,t,n,r,i,s){var o=n.View.extend({className:"loginView",events:{"click #submitLogin":"login"},initialize:function(){this.collection=this.options.collection,this.whisperCollection=this.options.whisperCollection,this.router=this.options.router},render:function(){var e=this.$el;return e.empty(),e.append(i),e.attr("data-role","dialog"),e.attr("data-theme","b"),this},login:function(t){var n=this.collection,r=this.whisperCollection,i=s("#loginForm").serializeObject(),o=this.router;t.preventDefault(),e.mobile.loading("show",{text:"Logging In!",textVisible:!0,theme:"b"}),e("#loginBtn").addClass("disabled"),e("#loginBtn").attr("disabled",!0);var u=new StackMob.User(i);return u.login(!1,{success:function(t){StackMob.LoggedInUserObject=t,e.mobile.loading("hide"),o.navigate("#justsaying",{trigger:!0},"justsaying");var n=new StackMob.Collection.Query;n.setExpand(1),r.query(n),e("input.usernameLogin").val(""),e("input.passwordLogin").val("")},error:function(t){e.mobile.loading("hide")}}),this}});return o});
+define([
+  'jquery',
+  'underscore', 
+  'backbone',
+  'stackmob',
+  'text!templates/login/loginTemplate.html',
+  'libs/app/util'
+], function($,_,Backbone, Stackmob,LoginTemplate,Util){
+  
+  var LoginView = Backbone.View.extend({
+      className : 'loginView',
+      events: {  
+        "click #submitLogin": "login"
+      },
+
+      initialize: function() {
+        this.collection = this.options.collection;
+        this.whisperCollection = this.options.whisperCollection;
+        this.router = this.options.router;
+      },
+
+      render: function() {
+        var el = this.$el;
+
+        el.empty();
+        el.append(LoginTemplate);
+        el.attr("data-role","dialog");
+        el.attr("data-theme","b");      
+             
+        return this;
+      },
+
+      login: function(e) {
+          var collection = this.collection,
+          whisperCollection = this.whisperCollection,
+                    item = Util('#loginForm').serializeObject(),
+                  router = this.router;
+
+          e.preventDefault();
+
+          $.mobile.loading( 'show', {
+            text: "Logging In!",
+            textVisible: true,
+            theme: "b"
+          });
+
+          $('#loginBtn').addClass('disabled');
+          $('#loginBtn').attr('disabled',true);
+
+          var user = new StackMob.User(item);
+          user.login(false,{
+            success: function(model){
+
+              // This is a hack to persist the User Object for use later
+              StackMob.LoggedInUserObject = model;
+              
+              $.mobile.loading('hide');
+              router.navigate("#justsaying", {trigger: true},'justsaying');   
+
+              var wq = new StackMob.Collection.Query();
+              wq.setExpand(1);
+              whisperCollection.query(wq);
+
+              $('input.usernameLogin').val('');
+              $('input.passwordLogin').val('');
+                           
+            },
+            error: function(error){
+              $.mobile.loading('hide');
+            }
+          });  
+
+          return this;
+        }
+    });
+
+  return LoginView;
+  
+});

@@ -1,1 +1,47 @@
-define(["jquery","text!templates/home/homeTemplate.html","views/shout/ShoutListView","views/home/LogoutButtonView","views/home/LoginButtonView","libs/app/util","stackmobinit"],function(e,t,n,r,i,s,o){var u=Backbone.View.extend({className:"shout",events:{"click .logout":"logout"},initialize:function(e){this.collection=this.options.collection},render:function(){var e=this.$el;e.append(t),e.attr("id","shoutView");var r=e.find(":jqmData(role='content')");r.empty();var i=new n({collection:this.collection});return r.append(i.render().el),this},logout:function(e){return s(this.$el).setLoginLogoutButton(this.$el,"shout"),this}});return u});
+define([
+  'jquery',
+  'text!templates/home/homeTemplate.html',
+  'views/shout/ShoutListView',
+  'views/home/LogoutButtonView',
+  'views/home/LoginButtonView',
+  'libs/app/util',
+  'stackmobinit'
+], function($, HomeTemplate, ShoutListView, LogoutButtonView,LoginButtonView, Util, StackMob){
+  
+  var ShoutView = Backbone.View.extend({
+      className: "shout",   
+      
+      events: {   
+        "click .logout": "logout"
+      },
+
+      initialize: function(options) {
+        this.collection = this.options.collection;
+      },
+
+      render: function() {
+        var el = this.$el;
+        
+        el.append(HomeTemplate);
+        el.attr("id","shoutView");
+
+        // add Shout List to content area
+        var content = el.find(":jqmData(role='content')");
+        content.empty();
+
+        var listView = new ShoutListView({collection: this.collection});
+        content.append(listView.render().el);
+
+        return this;
+      },
+
+      logout: function(e) {
+        Util(this.$el).setLoginLogoutButton(this.$el,"shout");
+        return this;
+      }
+
+  });
+
+  return ShoutView;
+  
+});

@@ -1,7 +1,7 @@
-{
+({
     appDir: "../",
     baseUrl: "js",
-    dir: "../../hollagram-html5-build",
+    dir: "../../appdirectory-build",
      paths: {
       jquery: 'libs/jquery/jquery-1.8.2',
       'jquery.mobile-config': 'libs/jqm/jquery.mobile-config',
@@ -41,5 +41,4 @@
             name: "main"
         }
     ]
-}
-
+})

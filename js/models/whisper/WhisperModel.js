@@ -1,1 +1,15 @@
-define(["jquery","underscore","backbone","stackmobinit"],function(e,t,n,r){var i=r.Model.extend({schemaName:"whisper"});return i});
+define([
+  'jquery',
+  'underscore', 
+  'backbone',
+  'stackmobinit'
+], function($,_,Backbone,StackMob) {
+
+  var WhisperModel = StackMob.Model.extend({
+      schemaName: "whisper"
+ 	});
+
+  return WhisperModel;
+
+});
+
